@@ -1,62 +1,87 @@
 import React from "react";
-import Button from "../layouts/Button";
+import {
+  Backdrop,
+  Box,
+  Button,
+  TextField,
+  Typography,
+  Stack,
+  useTheme,
+} from "@mui/material";
 
 const Contact = ({ closeForm }) => {
+  const theme = useTheme();
+
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="popup-form absolute mt-12 text-black">
-        <form className=" w-80 md:w-96 space-y-5 bg-white p-5 rounded-xl">
-          <h1 className="text-4xl font-semibold text-center text-backgroundColor">
-            Book Now
-          </h1>
-          <div className=" flex flex-col">
-            <input
-              className="py-3 px-2 bg-[#d5f2ec] rounded-lg"
-              type="text"
-              name="userFirstName"
-              id="userFirstName"
-              placeholder="First Name"
-            />
-          </div>
-          <div className=" flex flex-col">
-            <input
-              className="py-3 px-2 bg-[#d5f2ec] rounded-lg"
-              type="text"
-              name="userLastName"
-              id="userLastName"
-              placeholder="Last Name"
-            />
-          </div>
-          <div className=" flex flex-col">
-            <input
-              className="py-3 px-2 bg-[#d5f2ec] rounded-lg"
-              type="email"
-              name="userEmail"
-              id="userEmail"
-              placeholder="Your Email"
-            />
-          </div>
-          <div className=" flex flex-col">
-            <input
-              className="py-3 px-2 bg-[#d5f2ec] rounded-lg"
-              type="number"
-              name="userNumber"
-              id="userNumber"
-              placeholder="Phone No."
-            />
-          </div>
-          <div className=" flex gap-5">
-            <Button title="Book Appointment" />
-            <button
-              className=" bg-backgroundColor text-white px-10 rounded-md active:bg-red-500"
+    <Backdrop
+      open={true}
+      sx={{ zIndex: 1300, color: "#fff", backdropFilter: "blur(2px)", backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+    >
+      <Box
+        sx={{
+          width: { xs: 320, md: 400 },
+          bgcolor: "background.paper",
+          p: 4,
+          borderRadius: 3,
+          boxShadow: 3,
+          textAlign: "center",
+        }}
+      >
+        <Typography variant="h4" component="h1" fontWeight="bold" color={theme.palette.primary.main} gutterBottom>
+          Book Now
+        </Typography>
+
+        <Stack spacing={2}>
+          <TextField
+            fullWidth
+            variant="filled"
+            name="userFirstName"
+            placeholder="First Name"
+            InputProps={{ disableUnderline: true }}
+            sx={{ bgcolor: "#4fb9e2", borderRadius: 1 }}
+          />
+          <TextField
+            fullWidth
+            variant="filled"
+            name="userLastName"
+            placeholder="Last Name"
+            InputProps={{ disableUnderline: true }}
+            sx={{ bgcolor: "#4fb9e2", borderRadius: 1 }}
+          />
+          <TextField
+            fullWidth
+            variant="filled"
+            type="email"
+            name="userEmail"
+            placeholder="Your Email"
+            InputProps={{ disableUnderline: true }}
+            sx={{ bgcolor: "#4fb9e2", borderRadius: 1 }}
+          />
+          <TextField
+            fullWidth
+            variant="filled"
+            type="number"
+            name="userNumber"
+            placeholder="Phone No."
+            InputProps={{ disableUnderline: true }}
+            sx={{ bgcolor: "#4fb9e2", borderRadius: 1 }}
+          />
+
+          <Stack direction="row" spacing={2} justifyContent="center">
+            <Button variant="contained" color="primary">
+              Book Appointment
+            </Button>
+            <Button
+              variant="contained"
+              color="secondary"
               onClick={closeForm}
             >
               Close
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+            </Button>
+          </Stack>
+        </Stack>
+      </Box>
+    </Backdrop>
   );
 };
 

@@ -1,14 +1,18 @@
-import React, { useState } from "react";
-import { Link } from "react-scroll";
-import Button from "../layouts/Button";
-import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
-import Contact from "../models/Contact";
+import React, { useState } from 'react';
+import { Link } from 'react-scroll';
+import { Box, AppBar, Toolbar, IconButton, Typography, Button, Drawer, List, ListItem, ListItemText, useMediaQuery } from '@mui/material';
+import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
+import logo from "../assets/img/logo.png"
+import Contact from '../models/Contact';
+import { useTheme } from '@mui/material/styles';
 
 const Navbar = () => {
   const [menu, setMenu] = useState(false);
   const [showForm, setShowForm] = useState(false);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('lg'));
 
-  const handleChange = () => {
+  const handleDrawerToggle = () => {
     setMenu(!menu);
   };
 
@@ -25,150 +29,93 @@ const Navbar = () => {
     setShowForm(false);
   };
 
+  const menuItems = [
+    { label: 'Home', to: 'home' },
+    { label: 'Gynaecology', to: 'xyz' },
+    { label: 'Infertility', to: 'home' },
+    { label: 'Paediatrics', to: 'doctors' },
+    { label: 'About Us', to: 'about' },
+    { label: 'Blog', to: 'blog' },
+    { label: 'Gallery', to: 'home' },
+  ];
+
+  const drawer = (
+    <Box
+      sx={{ width: '100vw', bgcolor: 'background.default', pt: 8, textAlign: 'center' }}
+      role="presentation"
+      onClick={closeMenu}
+    >
+      <List>
+        {menuItems.map((item) => (
+          <ListItem key={item.to} button>
+            <Link to={item.to} spy={true} smooth={true} duration={500}>
+              <ListItemText primaryTypographyProps={{ fontSize: 24, fontWeight: 600 }} primary={item.label} />
+            </Link>
+          </ListItem>
+        ))}
+        <Box sx={{ mt: 2 }}>
+          <Button variant="contained" color="primary" onClick={openForm}>
+            Contact Us
+          </Button>
+        </Box>
+      </List>
+    </Box>
+  );
+
   return (
-    <div className=" fixed w-full z-10 text-white">
-      <div>
-        <div className=" flex flex-row justify-between p-5 md:px-32 px-5 bg-backgroundColor shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]">
-          <div className=" flex flex-row items-center cursor-pointer">
-            <Link to="home" spy={true} smooth={true} duration={500}>
-              <h1 className=" text-2xl font-semibold">WellnessVista.</h1>
-            </Link>
-          </div>
+    <AppBar position="fixed" alignItems={'center'} sx={{ bgcolor: '#027dc6', boxShadow: '0 3px 8px rgba(0,0,0,0.24)' }}>
+      <Toolbar sx={{ height: 80, alignItems: 'center', justifyContent: 'space-between', px: { xs: 2, md: 8 } }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+          <Link to="home" spy={true} smooth={true} duration={500} style={{ display: 'flex', alignItems: 'center' }}>
+            <Box
+              component="img"
+              src={logo}
+              alt="Logo"
+              sx={{
+                width: 70,
+                height: 70,
+                mr: 1,
+              }}
+            />
+            <Typography variant="h6" sx={{ fontWeight: 600, color: '#fff' }}>
+              Symbiosis Clinic
+            </Typography>
+          </Link>
+        </Box>
 
-          <nav className=" hidden lg:flex flex-row items-center text-lg font-medium gap-8">
-            <Link
-              to="home"
-              spy={true}
-              smooth={true}
-              duration={500}
-              className=" hover:text-hoverColor transition-all cursor-pointer"
-            >
-              Home
-            </Link>
-            <Link
-              to="about"
-              spy={true}
-              smooth={true}
-              duration={500}
-              className=" hover:text-hoverColor transition-all cursor-pointer"
-            >
-              About Us
-            </Link>
-            <Link
-              to="services"
-              spy={true}
-              smooth={true}
-              duration={500}
-              className=" hover:text-hoverColor transition-all cursor-pointer"
-            >
-              Services
-            </Link>
-            <Link
-              to="doctors"
-              spy={true}
-              smooth={true}
-              duration={500}
-              className=" hover:text-hoverColor transition-all cursor-pointer"
-            >
-              Doctors
-            </Link>
-            <Link
-              to="blog"
-              spy={true}
-              smooth={true}
-              duration={500}
-              className=" hover:text-hoverColor transition-all cursor-pointer"
-            >
-              Blog
-            </Link>
-          </nav>
-
-          <div className=" hidden lg:flex">
-            <button
-              className="bg-brightColor text-white px-4 py-2 rounded-md hover:bg-hoverColor transition duration-300 ease-in-out"
-              onClick={openForm}
-            >
+        {!isMobile && (
+          <Box sx={{ display: 'flex', gap: 4, alignItems: 'center' }}>
+            {menuItems.map((item) => (
+              <Link
+                key={item.to}
+                to={item.to}
+                spy={true}
+                smooth={true}
+                duration={500}
+                style={{ cursor: 'pointer', fontSize: '1rem', fontWeight: 500, textDecoration: 'none', color: 'inherit' }}
+              >
+                {item.label}
+              </Link>
+            ))}
+            <Button variant="contained" sx={{ background: '#e875a6' }} color="primary" onClick={openForm}>
               Contact Us
-            </button>
-          </div>
+            </Button>
+          </Box>
+        )}
 
-          {showForm && <Contact closeForm={closeForm} />}
+        {isMobile && (
+          <IconButton color="inherit" onClick={handleDrawerToggle}>
+            {menu ? <AiOutlineClose size={24} /> : <AiOutlineMenu size={24} />}
+          </IconButton>
+        )}
+      </Toolbar>
 
-          <div className=" lg:hidden flex items-center">
-            {menu ? (
-              <AiOutlineClose size={28} onClick={handleChange} />
-            ) : (
-              <AiOutlineMenu size={28} onClick={handleChange} />
-            )}
-          </div>
-        </div>
-        <div
-          className={`${
-            menu ? "translate-x-0" : "-translate-x-full"
-          } lg:hidden flex flex-col absolute bg-backgroundColor text-white left-0 top-16 font-semibold text-2xl text-center pt-8 pb-4 gap-8 w-full h-fit transition-transform duration-300`}
-        >
-          <Link
-            to="home"
-            spy={true}
-            smooth={true}
-            duration={500}
-            className=" hover:text-hoverColor transition-all cursor-pointer"
-            onClick={closeMenu}
-          >
-            Home
-          </Link>
-          <Link
-            to="about"
-            spy={true}
-            smooth={true}
-            duration={500}
-            className=" hover:text-hoverColor transition-all cursor-pointer"
-            onClick={closeMenu}
-          >
-            About Us
-          </Link>
-          <Link
-            to="services"
-            spy={true}
-            smooth={true}
-            duration={500}
-            className=" hover:text-hoverColor transition-all cursor-pointer"
-            onClick={closeMenu}
-          >
-            Services
-          </Link>
-          <Link
-            to="doctors"
-            spy={true}
-            smooth={true}
-            duration={500}
-            className=" hover:text-hoverColor transition-all cursor-pointer"
-            onClick={closeMenu}
-          >
-            Doctors
-          </Link>
-          <Link
-            to="blog"
-            spy={true}
-            smooth={true}
-            duration={500}
-            className=" hover:text-hoverColor transition-all cursor-pointer"
-            onClick={closeMenu}
-          >
-            Blog
-          </Link>
+      <Drawer anchor="left" open={menu} onClose={handleDrawerToggle}>
+        {drawer}
+      </Drawer>
 
-          <div className=" lg:hidden">
-            <button
-              className="bg-brightColor text-white px-4 py-2 rounded-md hover:bg-hoverColor transition duration-300 ease-in-out"
-              onClick={openForm}
-            >
-              Contact Us
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+      {showForm && <Contact closeForm={closeForm} />}
+    </AppBar>
   );
 };
 
