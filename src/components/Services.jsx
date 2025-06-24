@@ -40,7 +40,7 @@ const Services = () => {
             mt={1}
             textAlign={{ xs: "center", lg: "left" }}
           >
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Natus, quidem.
+            
           </Typography>
         </Grid>
         <Grid item xs={12} lg={3} textAlign={{ xs: "center", lg: "right" }}>
