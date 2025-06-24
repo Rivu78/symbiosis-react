@@ -78,8 +78,7 @@ const Home = () => {
             borderRadius: "4px",
           }}
         >
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam magnam omnis natus accusantium quos. Reprehenderit
-          incidunt expedita molestiae impedit at sequi dolorem iste sit culpa, optio voluptates fugiat vero consequatur?
+          L
         </Typography>
 
         <Button
